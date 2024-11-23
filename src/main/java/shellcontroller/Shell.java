@@ -1,31 +1,51 @@
 package shellcontroller;
 
-import command.interf.Istudent;
-import command.interf.impl.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
+
+import command.implem.AddStudentCommand;
+import command.implem.ExitCommand;
+import command.implem.GetAllStudentCommand;
+import command.implem.SearchStudentCommand;
+import command.interf.command;
 
 public class Shell {
 
     private Scanner scan;
-    private HashMap<String, Command<String, Integer>> map;
+    private HashMap<String, command> CommandMap;
+    private String nomeFile;
+    private List<String> list;
 
     public void setScan() {
         this.scan = new Scanner(System.in);
     }
 
-//    public void setMap() {
-//        this.map = new HashMap<>();
-//        this.map.put("1", new AddStudentCommand());
-//        this.map.put("2", new GetAllStudentCommand());
-//        this.map.put("3", new SearchStudentCommand());
-//        this.map.put("4", new ExitCommand());
-//    }
+    public void setNomeFile(String nomeFile) {
+        this.nomeFile = nomeFile;
+    }
+
+    public void setList() {
+        this.list = new ArrayList<>();
+    }
+
+    public void setCommandMap() {
+        CommandMap = new HashMap<>();
+        CommandMap.put("1", new AddStudentCommand(nomeFile, scan));
+        CommandMap.put("2", new GetAllStudentCommand(list, nomeFile));
+        CommandMap.put("3", new SearchStudentCommand(nomeFile, scan));
+        CommandMap.put("4", new ExitCommand());
+    }
+
 
     // costr
-    public Shell() {
+    public Shell(String nomefile) {
         setScan();
+        setNomeFile(nomefile);
+        setList();
+        setCommandMap();
     }
 
     public void StartPoint() {
@@ -39,41 +59,18 @@ public class Shell {
         String scelta = scan.nextLine();
         this.HandleScelta(scelta);
 
-        // chiamata ricorsiva startPoint
-        StartPoint();
     }
 
     private void HandleScelta(String scelta) {
 
-        switch (scelta) {
-            case "1":
-                map.get("1");
-                break;
-            case "2":
-                map.get("2");
-                break;
-            case "3":
-                map.get("3");
-                break;
-            case "4":
-                map.get("4");
-                break;
+        try {
+            command c = CommandMap.get(scelta);
+            c.Execute();
+        } catch (RuntimeException ex) {
+
+            System.out.println("ERROR: " + ex.getMessage());
         }
 
     }
 
-//    @Override
-//    public void addStudent(Object nome, Object cognome, Object eta) {
-//
-//    }
-//
-//    @Override
-//    public List getAllStudents() {
-//        return List.of();
-//    }
-//
-//    @Override
-//    public Object searchStudent(Object studentName) {
-//        return null;
-//    }
 }

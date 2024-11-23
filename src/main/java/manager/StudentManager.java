@@ -31,14 +31,16 @@ public class StudentManager {
     // aggiungere le stringhe passate al metodo all interno del file.
     // scrivere su file
     public void addStudent(String nome, String cognome, int eta) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(getTest_fileName()))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(getTest_fileName(), true))) {
 
             StringBuilder sb = new StringBuilder();
             bw.write(String.valueOf(sb.append(nome).append(",").append(cognome).append(",").append(eta)));
+            bw.newLine();
 
         } catch (IOException e) {
             throw new RuntimeException("errore durante l'inserimento dei dati nel file.");
         }
+
     }
 
     // leggere da un file e inserire i valori dentro la lista ??
