@@ -24,4 +24,16 @@ public class ProdottoDTO {
         setNome(nome);
         setQuantita(qta);
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public float getQuantita() {
+        return quantita;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 }

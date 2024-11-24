@@ -32,7 +32,19 @@
             <artifactId>ojdbc8</artifactId>
             <version>23.6.0.24.10</version>
         </dependency>
+
+
+        <!--        dep per fare il mock della connessione al db -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.14.2</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
+
 
     <!--    plugin servono per creare il manifest del progetto (specificare quale sia la classe -->
     <!--    punto di ingresso del programma (se il programma è un eseguibile)-->
