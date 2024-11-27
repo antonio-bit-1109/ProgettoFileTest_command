@@ -2,6 +2,7 @@ package command.implem;
 
 
 import command.interf.command;
+import utilityclass.HandleFile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,35 +12,33 @@ import java.util.List;
 public class GetAllStudentCommand implements command {
 
     private List<String> list;
-    private String Test_fileName;
+    private HandleFile handleFileCLass;
 
 
-    public void setTest_fileName(String test_fileName) {
-        Test_fileName = test_fileName;
+    public void setHandleFileCLass(HandleFile handleFileCLass) {
+        this.handleFileCLass = handleFileCLass;
     }
+
 
     public void setList(List<String> list) {
         this.list = list;
     }
 
     //costr
-    public GetAllStudentCommand(List<String> list, String fileName) {
+    public GetAllStudentCommand(List<String> list, HandleFile handleFileClass) {
         setList(list);
-        setTest_fileName(fileName);
+        setHandleFileCLass(handleFileClass);
+        // setTest_fileName(fileName);
     }
 
-    public String getTest_fileName() {
-        return Test_fileName;
+    public HandleFile getHandleFileCLass() {
+        return handleFileCLass;
     }
 
     @Override
     public void Execute() {
 
-        if (getTest_fileName() == null) {
-            throw new RuntimeException("nome del file null");
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(getTest_fileName()))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getHandleFileCLass().GetCompletePath()))) {
             String line;
             while ((line = br.readLine()) != null) {
 
@@ -58,9 +57,9 @@ public class GetAllStudentCommand implements command {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("{");
+        sb.append("{").append("\n");
         for (String i : list) {
-            sb.append(i).append(" | ").append("\n");
+            sb.append(i).append("\n");
         }
         sb.append("}");
         return sb.toString();

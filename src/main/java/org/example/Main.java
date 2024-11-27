@@ -11,13 +11,13 @@ public class Main {
     public static void main(String[] args) {
 
         // prendere percorso relativo progetto e appendere nome file.
-        String currentDir = System.getProperty("user.dir");
-        StringBuilder sb = new StringBuilder();
-        sb.append(currentDir).append("/file_Studente.txt");
+//        String currentDir = System.getProperty("user.dir");
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(currentDir).append("/file_Studente.txt");
 
         do {
-            
-            shell = new Shell(sb.toString());
+
+            shell = new Shell();
             shell.StartPoint();
 
         } while (!finito);

@@ -10,17 +10,17 @@ import java.util.Scanner;
 
 public class AddStudentCommandTest {
 
-    private Scanner scan = new Scanner(System.in);
-    AddStudentCommand addStudentComm = new AddStudentCommand(null, scan);
-
-    @Test
-    void ThrowRuntimeErrIfNameFileNotGiven() {
-        
-        assertThrows(
-                RuntimeException.class,
-                () -> addStudentComm.Execute()
-        );
-    }
+//    private Scanner scan = new Scanner(System.in);
+//    AddStudentCommand addStudentComm = new AddStudentCommand(null, scan);
+//
+//    @Test
+//    void ThrowRuntimeErrIfNameFileNotGiven() {
+//
+//        assertThrows(
+//                RuntimeException.class,
+//                () -> addStudentComm.Execute()
+//        );
+//    }
 
 
 }

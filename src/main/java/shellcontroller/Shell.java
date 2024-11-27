@@ -10,16 +10,21 @@ import command.implem.*;
 import command.interf.command;
 import database.DTOs.ProdottoDTO;
 import database.DbManager;
+import utilityclass.HandleFile;
 
 public class Shell {
 
     private Scanner scan;
     private HashMap<String, command> CommandMap;
-    private String nomeFile;
+    // private String nomeFile;
     private List<String> list;
     private DbManager dbmanager;
     private List<ProdottoDTO> listaProdotti;
+    private HandleFile handleFileCLass;
 
+    public void setHandleFileCLass() {
+        this.handleFileCLass = new HandleFile();
+    }
 
     public void setListaProdotti() {
         this.listaProdotti = new ArrayList<>();
@@ -27,10 +32,6 @@ public class Shell {
 
     public void setScan() {
         this.scan = new Scanner(System.in);
-    }
-
-    public void setNomeFile(String nomeFile) {
-        this.nomeFile = nomeFile;
     }
 
     public void setList() {
@@ -43,30 +44,30 @@ public class Shell {
 
     public void setCommandMap() {
         CommandMap = new HashMap<>();
-        CommandMap.put("1", new AddStudentCommand(getNomeFile(), getScan()));
-        CommandMap.put("2", new GetAllStudentCommand(getList(), getNomeFile()));
-        CommandMap.put("3", new SearchStudentCommand(getNomeFile(), getScan()));
-        CommandMap.put("4", new ProdottoDAOImplem(getDbmanager(), getScan(), getListaProdotti(), getNomeFile()));
+        CommandMap.put("1", new AddStudentCommand(getScan(), getHandleFileCLass()));
+        CommandMap.put("2", new GetAllStudentCommand(getList(), getHandleFileCLass()));
+        CommandMap.put("3", new SearchStudentCommand(getHandleFileCLass(), getScan()));
+        CommandMap.put("4", new ProdottoDAOImplem(getDbmanager(), getScan(), getListaProdotti(), getHandleFileCLass()));
         CommandMap.put("5", new StoricoTransazioniCommand());
         CommandMap.put("6", new ExitCommand());
     }
-    
+
     // costr
-    public Shell(String nomefile) {
+    public Shell() {
+        setHandleFileCLass();
         setListaProdotti();
         setDbmanager();
         setScan();
-        setNomeFile(nomefile);
         setList();
         setCommandMap();
     }
 
-    public List<ProdottoDTO> getListaProdotti() {
-        return listaProdotti;
+    public HandleFile getHandleFileCLass() {
+        return handleFileCLass;
     }
 
-    public String getNomeFile() {
-        return nomeFile;
+    public List<ProdottoDTO> getListaProdotti() {
+        return listaProdotti;
     }
 
     public Scanner getScan() {
@@ -103,7 +104,7 @@ public class Shell {
         try {
             command c = CommandMap.get(scelta);
             c.Execute();
-        } catch (RuntimeException ex) {
+        } catch (Exception ex) {
 
             System.out.println("ERROR: " + ex.getMessage());
         }

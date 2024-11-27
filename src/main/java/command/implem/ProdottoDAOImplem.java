@@ -5,7 +5,7 @@ import command.interf.ProdottoDAO;
 import database.DTOs.ProdottoDTO;
 import database.DbManager;
 import command.interf.command;
-import org.w3c.dom.ls.LSOutput;
+import utilityclass.HandleFile;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -21,8 +21,12 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
     private DbManager dbManager;
     private Scanner scan;
     private List<ProdottoDTO> listaProdotti;
-    private String nomeFile;
     private boolean finito;
+    private HandleFile handleFileCLass;
+
+    public void setHandleFileCLass(HandleFile handleFileCLass) {
+        this.handleFileCLass = handleFileCLass;
+    }
 
     public void setListaProdotti(List<ProdottoDTO> listaProdotti) {
         this.listaProdotti = listaProdotti;
@@ -36,21 +40,22 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
         this.scan = scan;
     }
 
-    public void setNomeFile(String nomeFile) {
-        this.nomeFile = nomeFile;
-    }
-
     public void setFinito(boolean finito) {
         this.finito = finito;
     }
 
     //costru
-    public ProdottoDAOImplem(DbManager dbMan, Scanner scan, List<ProdottoDTO> listaProdotti, String nomeFile) {
+    public ProdottoDAOImplem(DbManager dbMan, Scanner scan, List<ProdottoDTO> listaProdotti, HandleFile handlefileclass) {
         setFinito(false);
         setDbManager(dbMan);
         setScan(scan);
         setListaProdotti(listaProdotti);
-        setNomeFile(nomeFile);
+        setHandleFileCLass(handlefileclass);
+        // setNomeFile(nomeFile);
+    }
+
+    public HandleFile getHandleFileCLass() {
+        return handleFileCLass;
     }
 
     public boolean getFinito() {
@@ -59,10 +64,6 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
 
     public Scanner getScan() {
         return scan;
-    }
-
-    public String getNomeFile() {
-        return nomeFile;
     }
 
     public void StartInteractDb() throws SQLException {
@@ -172,6 +173,7 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
 
     }
 
+    // prende un prodotto tramite il nome da db e lo salva in una lista "listaprodotti"
     @Override
     public void getProdottoByNome() throws SQLException {
 
@@ -193,14 +195,18 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
                             .append(",")
                             .append(res.getFloat("QTA")));
 
+                    ProdottoDTO p = new ProdottoDTO(
+                            res.getInt("IDPRODOTTO"),
+                            res.getString("NOME_PRODOTTO"),
+                            res.getFloat("QTA")
+                    );
+                    listaProdotti.add(p);
                 } else {
                     throw new SQLException("nessun record corrispondente per il nome fornito");
                 }
             }
 
         }
-
-//        return null;
     }
 
     @Override
@@ -218,9 +224,6 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
         return getScan().nextLine();
     }
 
-//    private void comeBack() {
-//
-//    }
 
     @Override
     public void WriteOnFile() {
@@ -229,7 +232,7 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
             System.out.println("la lista dati è vuota. fai prima una get da database");
         }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(getNomeFile(), true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(getHandleFileCLass().GetCompletePath(), true))) {
 
             List<String> listaStringhe = retriveDataFromObject();
 
@@ -242,6 +245,7 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
                 bw.newLine();
             }
 
+            listaProdotti.clear();
 
         } catch (IOException e) {
             throw new RuntimeException("errore durante l'inserimento dei dati nel file.");
@@ -251,7 +255,6 @@ public class ProdottoDAOImplem implements ProdottoDAO<StringBuilder>, command, I
 
     private List<String> retriveDataFromObject() {
 
-        //String [] arrStr = new String[]
         List<String> StrList = new ArrayList<>();
 
         for (int i = 0; i < listaProdotti.size(); i++) {

@@ -1,6 +1,7 @@
 package command.implem;
 
 import command.interf.command;
+import utilityclass.HandleFile;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -12,18 +13,20 @@ import java.util.Scanner;
 public class AddStudentCommand implements command {
 
     private Scanner scan;
-    private String Test_fileName;
+    //private String Test_fileName;
     private boolean corretto;
     private String inputNome;
     private String inputCognome;
     private String inputEta;
+    private HandleFile handleFileCLass;
+
 
     public void setScan(Scanner scan) {
         this.scan = scan;
     }
 
-    public void setTest_fileName(String test_fileName) {
-        Test_fileName = test_fileName;
+    public void setHandleFileCLass(HandleFile handleFileCLass) {
+        this.handleFileCLass = handleFileCLass;
     }
 
     public void setCorretto(boolean corretto) {
@@ -43,19 +46,24 @@ public class AddStudentCommand implements command {
     }
 
     //costr
-    public AddStudentCommand(String Test_fileName, Scanner scan) {
+    public AddStudentCommand(Scanner scan, HandleFile handlefileclass) {
         setCorretto(false);
-        setTest_fileName(Test_fileName);
+        // setTest_fileName(Test_fileName);
+        setHandleFileCLass(handlefileclass);
         setScan(scan);
+    }
+
+    public HandleFile getHandFile() {
+        return handleFileCLass;
     }
 
     public boolean getCorretto() {
         return this.corretto;
     }
 
-    public String getTest_fileName() {
-        return Test_fileName;
-    }
+//    public String getTest_fileName() {
+//        return Test_fileName;
+//    }
 
     public String getInputNome() {
         return inputNome;
@@ -70,13 +78,16 @@ public class AddStudentCommand implements command {
     }
 
     @Override
-    public void Execute() {
+    public void Execute() throws Exception {
 
-        if (getTest_fileName() == null) {
-            throw new RuntimeException("nome del file null");
+
+        if (!getHandFile().FileAlreadyExist()) {
+            getHandFile().CreatePath();
+            getHandFile().CreateFile();
         }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(getTest_fileName(), true))) {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(getHandFile().GetCompletePath(), true))) {
 
             getInputUser();
 

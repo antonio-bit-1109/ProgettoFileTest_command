@@ -8,5 +8,5 @@ public class StoricoTransazioniCommand implements command {
     public void Execute() {
 
     }
-    
+
 }

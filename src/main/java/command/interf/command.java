@@ -1,6 +1,5 @@
 package command.interf;
 
-public interface command
-{
-    void Execute();
+public interface command {
+    void Execute() throws Exception;
 }
