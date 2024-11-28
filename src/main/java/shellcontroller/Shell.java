@@ -11,6 +11,7 @@ import command.interf.command;
 import database.DTOs.ProdottoDTO;
 import database.DbManager;
 import utilityclass.HandleFile;
+import utilityclass.HandleProdotti;
 
 public class Shell {
 
@@ -19,15 +20,21 @@ public class Shell {
     // private String nomeFile;
     private List<String> list;
     private DbManager dbmanager;
-    private List<ProdottoDTO> listaProdotti;
+    // private List<ProdottoDTO> listaProdotti;
+    private HandleProdotti handleProdotti;
     private HandleFile handleFileCLass;
 
     public void setHandleFileCLass() {
         this.handleFileCLass = new HandleFile();
     }
 
-    public void setListaProdotti() {
-        this.listaProdotti = new ArrayList<>();
+    // public void setListaProdotti() {
+//        this.listaProdotti = new ArrayList<>();
+//    }
+
+
+    public void setHandleProdotti() {
+        this.handleProdotti = new HandleProdotti();
     }
 
     public void setScan() {
@@ -47,28 +54,30 @@ public class Shell {
         CommandMap.put("1", new AddStudentCommand(getScan(), getHandleFileCLass()));
         CommandMap.put("2", new GetAllStudentCommand(getList(), getHandleFileCLass()));
         CommandMap.put("3", new SearchStudentCommand(getHandleFileCLass(), getScan()));
-        CommandMap.put("4", new ProdottoDAOImplem(getDbmanager(), getScan(), getListaProdotti(), getHandleFileCLass()));
-        CommandMap.put("5", new StoricoTransazioniCommand());
+        CommandMap.put("4", new ProdottoDAOImplem(getDbmanager(), getScan(), getHandleProdotti(), getHandleFileCLass()));
+        CommandMap.put("5", new StoricoTransazioniCommand(getHandleProdotti()));
         CommandMap.put("6", new ExitCommand());
     }
 
     // costr
     public Shell() {
         setHandleFileCLass();
-        setListaProdotti();
+        //   setListaProdotti();
+        setHandleProdotti();
         setDbmanager();
         setScan();
         setList();
         setCommandMap();
     }
 
+    public HandleProdotti getHandleProdotti() {
+        return handleProdotti;
+    }
+
     public HandleFile getHandleFileCLass() {
         return handleFileCLass;
     }
 
-    public List<ProdottoDTO> getListaProdotti() {
-        return listaProdotti;
-    }
 
     public Scanner getScan() {
         return scan;
@@ -96,7 +105,7 @@ public class Shell {
 
         String scelta = scan.nextLine();
         this.HandleScelta(scelta);
-
+        StartPoint();
     }
 
     private void HandleScelta(String scelta) {

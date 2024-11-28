@@ -13,8 +13,7 @@ public class DbManager {
     private static final String user = "UTENTEPROVA";
     private static final String password = "SYSTEM";
     private Connection conn;
-
-
+    
     // costr vuoto
     public DbManager() {
     }

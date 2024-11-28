@@ -12,27 +12,36 @@ import java.util.Map;
 // che serviranno per elaborare uno storico delle transazioni.
 public class HandleProdotti {
 
-    // mappa nel quale inserire una stringa che identifichi l'operazione fatta (key) ed il value rappresenta una lista di oggetti ProdottoDto
-    // nel quale ce ne possono essere uno o piu oggetti ProdottoDto
-    // private Map<String, List<ProdottoDTO>> mapProdotti;
-//     private List<ProdottoDTO> listaProdotti;
-//
-//
-//    public void setMapProdotti(Map<String, List<ProdottoDTO>> mapProdotti) {
-//        this.mapProdotti = mapProdotti;
-//    }
-//
-//    //costrutt
-//    public HandleProdotti() {
-//        setMapProdotti(new HashMap<>());
-//    }
-//
-//    public Map<String, List<ProdottoDTO>> getMapProdotti() {
-//        return mapProdotti;
-//    }
+    private List<ProdottoDTO> listaProdotti;
+    private Map<Integer, String> mappaTransaz;
 
-//    public void AddToMap(String key, ProdottoDTO prod) {
-//        ArrayList<ProdottoDTO> list = new ArrayList<>();
-//        getMapProdotti().put(key, list.add(prod));
-//    }
+    public void setListaProdotti(List<ProdottoDTO> listaProdotti) {
+        this.listaProdotti = listaProdotti;
+    }
+
+    public void setMappaTransaz(Map<Integer, String> mappaTransaz) {
+        this.mappaTransaz = mappaTransaz;
+    }
+
+    //costrutt
+    public HandleProdotti() {
+        setListaProdotti(new ArrayList<>());
+        setMappaTransaz(new HashMap<>());
+    }
+
+    public Map<Integer, String> getMappaTransaz() {
+        return mappaTransaz;
+    }
+
+    public List<ProdottoDTO> getListaProdotti() {
+        return listaProdotti;
+    }
+
+    public int getListaSize() {
+        return this.listaProdotti.size();
+    }
+
+    public void AddToListProdotti(ProdottoDTO prod) {
+        this.getListaProdotti().add(prod);
+    }
 }
