@@ -2,6 +2,7 @@ package command.implem;
 
 import command.interf.command;
 import utilityclass.HandleFile;
+import utilityclass.HandleProdotti;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,7 +20,11 @@ public class AddStudentCommand implements command {
     private String inputCognome;
     private String inputEta;
     private HandleFile handleFileCLass;
+    private HandleProdotti handleProdotti;
 
+    public void setHandleProdotti(HandleProdotti handleProdotti) {
+        this.handleProdotti = handleProdotti;
+    }
 
     public void setScan(Scanner scan) {
         this.scan = scan;
@@ -46,11 +51,16 @@ public class AddStudentCommand implements command {
     }
 
     //costr
-    public AddStudentCommand(Scanner scan, HandleFile handlefileclass) {
+    public AddStudentCommand(Scanner scan, HandleFile handlefileclass, HandleProdotti handleProdotti) {
         setCorretto(false);
         // setTest_fileName(Test_fileName);
         setHandleFileCLass(handlefileclass);
         setScan(scan);
+        setHandleProdotti(handleProdotti);
+    }
+
+    public HandleProdotti getHandleProdotti() {
+        return handleProdotti;
     }
 
     public HandleFile getHandFile() {
@@ -60,10 +70,6 @@ public class AddStudentCommand implements command {
     public boolean getCorretto() {
         return this.corretto;
     }
-
-//    public String getTest_fileName() {
-//        return Test_fileName;
-//    }
 
     public String getInputNome() {
         return inputNome;
@@ -95,6 +101,7 @@ public class AddStudentCommand implements command {
             bw.write(String.valueOf(sb.append(getInputNome()).append(",").append(getInputCognome()).append(",").append(getInputEta())));
             bw.newLine();
             System.out.println("Utente aggiunto al file nel formato: nome,cognome,età ");
+            getHandleProdotti().AddToMap("Aggiunto utente al file. Nome utente aggiunto: " + sb);
         } catch (IOException ex) {
 
             throw new RuntimeException("errore durante l'inserimento dei dati nel file." + ex);

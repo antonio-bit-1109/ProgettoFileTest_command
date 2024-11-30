@@ -17,21 +17,14 @@ public class Shell {
 
     private Scanner scan;
     private HashMap<String, command> CommandMap;
-    // private String nomeFile;
     private List<String> list;
     private DbManager dbmanager;
-    // private List<ProdottoDTO> listaProdotti;
     private HandleProdotti handleProdotti;
     private HandleFile handleFileCLass;
 
     public void setHandleFileCLass() {
-        this.handleFileCLass = new HandleFile();
+        this.handleFileCLass = new HandleFile(getHandleProdotti());
     }
-
-    // public void setListaProdotti() {
-//        this.listaProdotti = new ArrayList<>();
-//    }
-
 
     public void setHandleProdotti() {
         this.handleProdotti = new HandleProdotti();
@@ -51,19 +44,18 @@ public class Shell {
 
     public void setCommandMap() {
         CommandMap = new HashMap<>();
-        CommandMap.put("1", new AddStudentCommand(getScan(), getHandleFileCLass()));
-        CommandMap.put("2", new GetAllStudentCommand(getList(), getHandleFileCLass()));
-        CommandMap.put("3", new SearchStudentCommand(getHandleFileCLass(), getScan()));
+        CommandMap.put("1", new AddStudentCommand(getScan(), getHandleFileCLass(), getHandleProdotti()));
+        CommandMap.put("2", new GetAllStudentCommand(getList(), getHandleFileCLass(), getHandleProdotti()));
+        CommandMap.put("3", new SearchStudentCommand(getHandleFileCLass(), getScan(), getHandleProdotti()));
         CommandMap.put("4", new ProdottoDAOImplem(getDbmanager(), getScan(), getHandleProdotti(), getHandleFileCLass()));
         CommandMap.put("5", new StoricoTransazioniCommand(getHandleProdotti()));
-        CommandMap.put("6", new ExitCommand());
+        CommandMap.put("6", new ExitCommand(getHandleProdotti(), getDbmanager()));
     }
 
     // costr
     public Shell() {
-        setHandleFileCLass();
-        //   setListaProdotti();
         setHandleProdotti();
+        setHandleFileCLass();
         setDbmanager();
         setScan();
         setList();

@@ -4,3 +4,6 @@
 - [] cancella la classe studentManager
 - [] mostrare all utente lo storico transazioni con un sout e pushare tali storici in una tabella di un db.
 - [] aggiungere lo storico transazioni a tutte le operazioni fatte sull app.
+
+- [] prima dell uscita dall applicazione salvo tutte le transazioni avvenute nell applicazione dentro al db e poi
+  pulisco la mappa.!!!

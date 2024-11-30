@@ -39,8 +39,7 @@ public class StoricoTransazioniCommand implements command {
         CicleMap();
         System.out.println("----------------------------------");
     }
-
-
+    
     private void CicleMap() {
 
         LocalDateTime currentDate = LocalDateTime.now();
@@ -50,14 +49,15 @@ public class StoricoTransazioniCommand implements command {
 
         } else {
 
-            Map<Integer, String> mymap = getHandleProdotti().getMappaTransaz();
+            Map<String, String> mymap = getHandleProdotti().getMappaTransaz();
 
-            for (Map.Entry<Integer, String> entry : mymap.entrySet()) {
+            for (Map.Entry<String, String> entry : mymap.entrySet()) {
                 // System.out.println("ID: " + entry.getKey() + ", Descrizione: " + entry.getValue());
-                System.out.println("- " + entry.getValue() + " In Data --> " + currentDate);
+                System.out.println("- " + "ID: " + entry.getKey() + " | " + entry.getValue() + " In Data --> " + currentDate);
 
             }
 
+            getHandleProdotti().AddToMap("Richiesta storico completo delle transazioni effettuate.");
         }
 
     }

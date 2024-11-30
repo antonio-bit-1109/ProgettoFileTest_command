@@ -2,6 +2,7 @@ package command.implem;
 
 import command.interf.command;
 import utilityclass.HandleFile;
+import utilityclass.HandleProdotti;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,34 +12,40 @@ import java.util.Scanner;
 
 public class SearchStudentCommand implements command {
 
-    private String Test_fileName;
-    //private String studentName;
+    //  private String Test_fileName;
     private Scanner scan;
     private HandleFile handleFileCLass;
+    private HandleProdotti handleProdotti;
+
+
+    public void setHandleProdotti(HandleProdotti handleProdotti) {
+        this.handleProdotti = handleProdotti;
+    }
 
     public void setScan(Scanner scan) {
         this.scan = scan;
     }
-
-    // public void setTest_fileName(String test_fileName) {
-//        Test_fileName = test_fileName;
-//    }
 
     public void setHandleFileCLass(HandleFile handleFileCLass) {
         this.handleFileCLass = handleFileCLass;
     }
 
     //costr
-    public SearchStudentCommand(HandleFile handlefileclass, Scanner scan) {
+    public SearchStudentCommand(HandleFile handlefileclass, Scanner scan, HandleProdotti handleProd) {
         // setStudentName(studentname);
         setHandleFileCLass(handlefileclass);
         setScan(scan);
+        setHandleProdotti(handleProd);
+    }
+
+    public HandleProdotti getHandleProdotti() {
+        return handleProdotti;
     }
 
     public HandleFile getHandleFileCLass() {
         return handleFileCLass;
     }
-    
+
 
     @Override
     public void Execute() {
@@ -66,9 +73,10 @@ public class SearchStudentCommand implements command {
 
             if (!sb.isEmpty()) {
                 System.out.println(sb);
+                getHandleProdotti().AddToMap("effettuata ricerca su file del nome: " + nomeStudente + "." + " | Esito positivo.");
             } else {
                 System.out.println("nulla da mostrare.");
-
+                getHandleProdotti().AddToMap("effettuata ricerca su file del nome: " + nomeStudente + "." + " | Esito negativo.");
             }
 
         } catch (IOException e) {

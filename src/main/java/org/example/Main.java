@@ -10,12 +10,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        do {
 
         shell = new Shell();
         shell.StartPoint();
-
-//        } while (!finito);
 
 
     }
